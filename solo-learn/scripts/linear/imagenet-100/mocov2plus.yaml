@@ -1,0 +1,49 @@
+defaults:
+  - _self_
+  - wandb: private.yaml
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+
+# disable hydra outputs
+hydra:
+  output_subdir: null
+  run:
+    dir: .
+
+name: "mocov2plus-nly-stf-linear"
+pretrained_feature_extractor: "/media/omnisky/sdb/grade2020/zhangjizhe/ssl_model/solo-learn/trained_models/mocov2plus/2skjxlow/mocov2plus-cifar10-only-stf-2skjxlow-ep=51.ckpt"
+backbone:
+  name: "resnet18"
+pretrain_method: "mocov2plus"
+data:
+  dataset: cifar10
+  train_path: "../datasets/CIFAR10/train"
+  val_path: "../datasets/CIFAR10/train"
+  format: "image_folder"
+  num_workers: 4
+optimizer:
+  name: "sgd"
+  batch_size: 256
+  # lr: 3.0
+  lr: 1.5
+  weight_decay: 0
+scheduler:
+  name: "step"
+  lr_decay_steps: [60, 80]
+checkpoint:
+  enabled: True
+  dir: "trained_models"
+  frequency: 1
+auto_resume:
+  enabled: True
+
+# overwrite PL stuff
+max_epochs: 100
+devices: [0,1]
+sync_batchnorm: True
+accelerator: "gpu"
+strategy: "ddp"
+precision: 16
+
+
+#  python3 main_linear.py --config-path scripts/linear/imagenet-100/ --config-name mocov2plus.yaml

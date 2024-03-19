@@ -1,0 +1,64 @@
+defaults:
+  - _self_
+  - augmentations: asymmetric.yaml
+  - wandb: private.yaml
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+
+# disable hydra outputs
+hydra:
+  output_subdir: null
+  run:
+    dir: .
+
+name: "barlow_twins-cifar10"
+method: "barlow_twins"
+backbone:
+  name: "resnet18"
+method_kwargs:
+  proj_hidden_dim: 2048
+  proj_output_dim: 2048
+  scale_loss: 0.1
+data:
+  dataset: "custom" # change here for cifar100
+  train_path: "../datasets/tiny-imagenet-200/train"
+  val_path: "../datasets/tiny-imagenet-200/val"
+  no_labels: False
+  format: "image_folder"
+  num_workers: 4
+  extra_data:
+  dup: 10
+optimizer:
+  name: "lars"
+  batch_size: 256
+  # lr: 0.3
+  lr: 0.15
+  # classifier_lr: 0.1
+  classifier_lr: 0.05
+
+  weight_decay: 1e-4
+  kwargs:
+    clip_lr: True
+    eta: 0.02
+    exclude_bias_n_norm: True
+scheduler:
+  name: "warmup_cosine"
+checkpoint:
+  enabled: True
+  dir: "../results/trained_models"
+  frequency: 1
+auto_resume:
+  enabled: False
+
+# overwrite PL stuff
+# overwrite PL stuff
+compute_warm_step_epoch: 1000 #max_warmup_steps = (self.warmup_epochs * (self.trainer.estimated_stepping_batches / self.max_epochs)
+# max_epochs: 500
+max_steps: 100000
+devices: [6]
+sync_batchnorm: True
+accelerator: "gpu"
+strategy: "ddp"
+precision: 16
+val_check_interval: 200 #100step测试一次验证集
+check_val_every_n_epoch:

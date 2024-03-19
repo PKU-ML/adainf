@@ -1,0 +1,78 @@
+defaults:
+  - _self_
+  - wandb: private.yaml
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+
+# disable hydra outputs
+hydra:
+  output_subdir: null
+  run:
+    dir: .
+
+name: "simclr-linear"
+# /media/omnisky/sdb/grade2020/zhangjizhe/ssl_model/results/trained_models/simclr/6mjfae4m/simclr-tinyimage-baseline-6mjfae4m-ep=32.ckpt
+# /media/omnisky/sdb/grade2020/zhangjizhe/ssl_model/results/trained_models/simclr/9gha1q37/tiny_vin_simclr-9gha1q37-ep=46.ckpt
+# /media/omnisky/sdb/grade2020/zhangjizhe/ssl_model/results/trained_models/simclr/o3ngpxl1/simclr-tiny_imagenet-ddpm-o3ngpxl1-ep=25.ckpt
+# /media/omnisky/sdb/grade2020/zhangjizhe/ssl_model/results/trained_models/simclr/evpu6lr3/simclr-cf100-vin-evpu6lr3-ep=48.ckpt
+pretrained_feature_extractor: /media/omnisky/sdb/grade2020/zhangjizhe/ssl_model/solo-learn/trained_models/simclr/dk54iai7/simclr_cf10_stylegan_fid1.92-dk54iai7-ep=34.ckpt
+backbone:
+  name: "resnet18"
+pretrain_method: "simclr"
+data:
+  dataset: "cifar10"
+  train_path: "../datasets/CIFAR10/train"
+  val_path: "../datasets/CIFAR10/val"
+  format: "image_folder"
+  num_workers: 4
+
+auto_augment: True
+
+
+optimizer:
+  name: "lars"
+  batch_size: 256
+  lr: 0.2
+  weight_decay: 1e-4
+  kwargs:
+    clip_lr: True
+    eta: 0.02
+    exclude_bias_n_norm: True
+scheduler:
+  name: "warmup_cosine"
+# optimizer:
+#   name: "sgd"
+#   batch_size: 256
+#   lr: 0.05
+#   weight_decay: 1e-4
+# scheduler:
+#   name: "step"
+#   lr_decay_steps: [60, 80]
+
+
+
+# optimizer:
+#   name: "lars"
+#   batch_size: 256
+#   lr: 0.3
+#   # lr: 0.5
+#   weight_decay: 1e-4
+# scheduler:
+#   name: "warmup_cosine"
+#   # lr_decay_steps: [60, 80]
+checkpoint:
+  enabled: True
+  dir: "../results/trained_models"
+  frequency: 1
+auto_resume:
+  enabled: False
+
+# overwrite PL stuff
+max_epochs: 100
+devices: [4，5]
+sync_batchnorm: True
+accelerator: "gpu"
+strategy: "ddp"
+precision: 16
+
+# python3 main_linear.py --config-path scripts/linear/imagenet-100/ --config-name simclr.yaml
