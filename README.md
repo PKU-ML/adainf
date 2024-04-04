@@ -1,9 +1,9 @@
-## Introduction
+F## Introduction
 Official code for ICLR 2024 paper [Do Generated Data Always Help Contrastive Learning?](https://openreview.net/pdf?id=S5EqslEHnz) authored by [Yifei Wang*](https://yifeiwang77.com/), Jizhe Zhang*, and [Yisen Wang](https://yisenwang.github.io/).
 
 With the rise of generative models, especially diffusion models, the ability to generate realistic images close to the real data distribution has been well recognized. These generated high-equality images have been successfully applied to enhance contrastive representation learning, a technique termed ''data inflation''. However, we find that the generated data may sometimes even harm contrastive learning. We investigate the causes behind this failure from the perspective of both data inflation and data augmentation. For the first time, we reveal the complementary roles that stronger data inflation should be accompanied by weaker augmentations, and vice versa. Finally, we propose Adaptive Inflation (AdaInf), a purely data-centric strategy without introducing any extra computation cost when contrastive representation learning with data inflation. 
 
-Our code is mostly based on the codebase [solo-learn](https://github.com/vturrisi/solo-learn), a library of self-supervised methods for unsupervised visual representation learning. You can refer to [README_solo.md](https://github.com/jizhejzz/AdaInf/blob/master/solo-learn/README_solo.md) for details on the installation and runing of the code. 
+Our code is mostly based on the codebase [solo-learn](https://github.com/vturrisi/solo-learn), a library of self-supervised methods for unsupervised visual representation learning. You can refer to [README_solo.md](https://github.com/PKU-ML/adainf/blob/master/solo-learn/README_solo.md) for details on the installation and runing of the code. 
 ## Getting started
 To install the main dependencies for this repo, run:
 
@@ -30,7 +30,7 @@ Including:
 -train.npz） for data-scarce scenarios in Section 5.1 in our paper.
 + 500k generated iamges of 1/10 size of CIFAR-10 (cifar10-5k-500k-stf.npz) from STF.
 
-For more details of generating images, please refer to [README_gen.md](https://github.com/jizhejzz/AdaInf/blob/master/README_gen.md).
+For more details of generating images, please refer to [README_gen.md](https://github.com/PKU-ML/adaInf/blob/master/README_gen.md).
  
 
 ## Pretrain SimCLR
@@ -65,7 +65,7 @@ data.dup=10 \
 max_steps=100000
 ```
 
-For more scripts and more parameter configurations, please refer to [./scripts](https://github.com/jizhejzz/AdaInf/tree/master/scripts) and [./solo-learn/scripts](https://github.com/jizhejzz/AdaInf/tree/master/solo-learn/scripts).
+For more scripts and more parameter configurations, please refer to [./scripts](https://github.com/PKU-ML/adaInf/tree/master/scripts) and [./solo-learn/scripts](https://github.com/PKU-ML/adaInf/tree/master/solo-learn/scripts).
 
 ## Results of CIFAR-10
 | Inflation | SimCLR | MoCo V2 | BYOL| Barlow Twins| 
