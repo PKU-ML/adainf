@@ -1,4 +1,4 @@
-F## Introduction
+## Introduction
 Official code for ICLR 2024 paper [Do Generated Data Always Help Contrastive Learning?](https://openreview.net/pdf?id=S5EqslEHnz) authored by [Yifei Wang*](https://yifeiwang77.com/), Jizhe Zhang*, and [Yisen Wang](https://yisenwang.github.io/).
 
 With the rise of generative models, especially diffusion models, the ability to generate realistic images close to the real data distribution has been well recognized. These generated high-equality images have been successfully applied to enhance contrastive representation learning, a technique termed ''data inflation''. However, we find that the generated data may sometimes even harm contrastive learning. We investigate the causes behind this failure from the perspective of both data inflation and data augmentation. For the first time, we reveal the complementary roles that stronger data inflation should be accompanied by weaker augmentations, and vice versa. Finally, we propose Adaptive Inflation (AdaInf), a purely data-centric strategy without introducing any extra computation cost when contrastive representation learning with data inflation. 
